@@ -134,8 +134,8 @@ Material:
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _ContactEdgeScale: 103
-    - _ContactFoamBoost: 0.74
-    - _ContactFoamDist: 1.23
+    - _ContactFoamBoost: 0
+    - _ContactFoamDist: 5
     - _ContactSoftness: 2.44
     - _Cull: 2
     - _Cutoff: 0.5
@@ -194,8 +194,8 @@ Material:
     - _OutlineWidth: 1
     - _OverrideLightmapDir: 0
     - _Parallax: 0.005
-    - _PatternAmount: 0.554
-    - _PatternContrast: 2.29
+    - _PatternAmount: 0.269
+    - _PatternContrast: 1.49
     - _PatternSpeed: 0.15
     - _PatternStrength: 0.35
     - _PatternTiling: -0.25
@@ -290,6 +290,7 @@ Material:
     - _WaveFreqAB: {r: 1.6, g: 2.3, b: 0, a: 0}
     - _WaveSpeedAB: {r: 0.8, g: -0.55, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &2281058254264082578
 MonoBehaviour:
   m_ObjectHideFlags: 11
