@@ -12,7 +12,7 @@ namespace Fusion.Fluid {
 
             if(difference < 0)
             {
-                Vector3 buoyancy = Vector3.up * floatStrength * Mathf.Abs(difference) * Physics.gravity.magnitude * volume * fluid.density;
+                Vector3 buoyancy = floatStrength * fluid.density * Mathf.Abs(difference) * Physics.gravity.magnitude * volume * Vector3.up;
 
                 if (simulateWaterTurbulence)
                 {
@@ -22,7 +22,7 @@ namespace Fusion.Fluid {
                 }
 
                 rb.AddForceAtPosition(buoyancy, transform.position, ForceMode.Force);
-                rb.AddForceAtPosition(-rb.linearVelocity * dampeningFactor * volume, transform.position, ForceMode.Force);
+                rb.AddForceAtPosition(dampeningFactor * volume * -rb.linearVelocity, transform.position, ForceMode.Force);
             }
         }
     }

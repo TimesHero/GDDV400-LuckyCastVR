@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 962323864373548698}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.000000029802, y: -0.524, z: -4e-15}
+  m_LocalPosition: {x: 0, y: 0.031, z: 0}
   m_LocalScale: {x: 3.1737, y: 0.9566275, z: 5.8579}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -52,8 +52,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.0567927, z: 0.9619741}
-  m_Center: {x: -2.7171663e-19, y: 0.02839638, z: -0.00011811242}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!114 &6351826433171606113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,9 +66,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57932b374ac969d40900d06cf0d457fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Fusion.Fluid.Fluid
-  density: 2
-  drag: 1
-  angularDrag: 1
+  density: 0.25
+  drag: 0.1
+  angularDrag: 5
 --- !u!1 &6389270606731296965
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,7 +86,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7364306408652674806
 Transform:
   m_ObjectHideFlags: 0
@@ -186,7 +186,7 @@ Transform:
   m_GameObject: {fileID: 6565004015088776650}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.0398817, z: -0.0049681664}
+  m_LocalPosition: {x: 0, y: 1.02, z: -0.0049681664}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
