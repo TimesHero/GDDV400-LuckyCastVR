@@ -7,22 +7,27 @@ public class DuckHookPoint : MonoBehaviour
     [SerializeField] private DuckAudioEvents duckAudioEvents;
     [SerializeField] private Rigidbody duckBody;
     [SerializeField] private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable duckGrab;
+    [SerializeField] private Behaviour basicFluidInteractor;
 
-    //stores the hook position the duck should follow
     private Transform hangPose;
-
-    //remembers if gravity was on before the duck got hooked
     private bool previousUseGravity;
-
-    // True = the duck is currently
     public bool IsHooked => hangPose != null;
+
+    [SerializeField] private GameManager gameManager;
+    [SerializeField] public bool wasHooked;
+    [SerializeField] public bool hasScored;
+    public int duckValue;
+    public Vector3 startPosition;
+    private Quaternion startRotation;
 
     private void Reset()
     {
         duckRoot = transform.root;
         duckBody = GetComponentInParent<Rigidbody>();
         duckGrab = GetComponentInParent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
-        duckAudioEvents = GetComponentInParent<DuckAudioEvents>();    
+        duckAudioEvents = GetComponentInParent<DuckAudioEvents>();  
+        basicFluidInteractor = GetComponentInParent<Behaviour>();
+          
     }
 
     private void OnEnable()
@@ -51,6 +56,8 @@ public class DuckHookPoint : MonoBehaviour
         if (IsHooked || targetHangPose == null || duckBody == null || duckRoot == null)
             return false;
 
+        wasHooked = true;
+
         //Save place the duck should hang from
         hangPose = targetHangPose;
 
@@ -78,17 +85,31 @@ public class DuckHookPoint : MonoBehaviour
     public void Unhook()
     {
         if (!IsHooked || duckBody == null)
+        {
+            Debug.Log("Unhook() failed: not hooked or no rigidbody");
             return;
+        }
+
+        Debug.Log("Unhook() called");
 
         hangPose = null;
         duckBody.isKinematic = false;
-        duckBody.useGravity = previousUseGravity;
-        duckAudioEvents.PlayGrabSound();
+        duckBody.useGravity = true;
+        duckBody.linearVelocity = Vector3.zero;
+        duckBody.angularVelocity = Vector3.zero;
+
+        Debug.Log($"After unhook: isKinematic={duckBody.isKinematic}, useGravity={duckBody.useGravity}");
     }
 
     private void OnDuckGrabbed(SelectEnterEventArgs args)
     {
-        if (IsHooked)
+        if (IsHooked == true)
             Unhook();
+
+        if (!wasHooked)
+        {
+            if (gameManager != null)
+                gameManager.HandleIllegalGrab();
+        }
     }
 }
