@@ -8,6 +8,7 @@ public class DuckHookPoint : MonoBehaviour
     [SerializeField] private Rigidbody duckBody;
     [SerializeField] private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable duckGrab;
     [SerializeField] private Behaviour basicFluidInteractor;
+    [SerializeField] private HookCatchZone hookCatchZone;
 
     private Transform hangPose;
     private bool previousUseGravity;
@@ -34,12 +35,14 @@ public class DuckHookPoint : MonoBehaviour
     {
         if (duckGrab != null)
             duckGrab.selectEntered.AddListener(OnDuckGrabbed);
+            duckGrab.selectExited.AddListener(OnDuckUnGrabbed);
     }
 
     private void OnDisable()
     {
         if (duckGrab != null)
             duckGrab.selectEntered.RemoveListener(OnDuckGrabbed);
+            duckGrab.selectExited.RemoveListener(OnDuckUnGrabbed);
     }
 
     private void LateUpdate()
@@ -49,6 +52,11 @@ public class DuckHookPoint : MonoBehaviour
 
         //Force duck to hook position
         duckRoot.SetPositionAndRotation(hangPose.position, hangPose.rotation);
+    }
+
+        public void SetHookCatchZone(HookCatchZone zone)
+    {
+        hookCatchZone = zone;
     }
 
     public bool TryHook(Transform targetHangPose)
@@ -84,6 +92,7 @@ public class DuckHookPoint : MonoBehaviour
 
     public void Unhook()
     {
+        Debug.Log($"Unhook entered for {name}. hangPose={(hangPose == null ? "null" : hangPose.name)}");
         if (!IsHooked || duckBody == null)
         {
             Debug.Log("Unhook() failed: not hooked or no rigidbody");
@@ -93,6 +102,10 @@ public class DuckHookPoint : MonoBehaviour
         Debug.Log("Unhook() called");
 
         hangPose = null;
+
+        if (hookCatchZone != null)
+            hookCatchZone.ClearCurrentDuck(this); 
+
         duckBody.isKinematic = false;
         duckBody.useGravity = true;
         duckBody.linearVelocity = Vector3.zero;
@@ -103,6 +116,7 @@ public class DuckHookPoint : MonoBehaviour
 
     private void OnDuckGrabbed(SelectEnterEventArgs args)
     {
+        Debug.Log($"OnDuckGrabbed fired for {name}. IsHooked={IsHooked}");
         if (IsHooked == true)
             Unhook();
 
@@ -111,5 +125,16 @@ public class DuckHookPoint : MonoBehaviour
             if (gameManager != null)
                 gameManager.HandleIllegalGrab();
         }
+    }
+
+        private void OnDuckUnGrabbed(SelectExitEventArgs args)
+    {
+        if (duckBody == null)
+            return;
+
+        duckBody.isKinematic = false;
+        duckBody.useGravity = true;
+
+        Debug.Log($"OnDuckUngrabbed forced state: isKinematic={duckBody.isKinematic}, useGravity={duckBody.useGravity}");
     }
 }

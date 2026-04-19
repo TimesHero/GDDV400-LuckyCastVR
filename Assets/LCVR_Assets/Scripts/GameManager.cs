@@ -16,7 +16,10 @@ public class GameManager : MonoBehaviour
 
     private int score = 0;
 
-    private List<int> availableDuckValues = new List<int>();
+    private readonly List<int> availableDuckValues = new List<int>();
+    private readonly List<int> scoredDuckValues = new List<int>();
+    private readonly HashSet<int> uniqueScoredValues = new HashSet<int>();
+
     private DuckHookPoint[] allDucks;
 
     private void Start()
@@ -92,7 +95,28 @@ public class GameManager : MonoBehaviour
             return;
 
         duck.hasScored = true;
+        scoredDuckValues.Add(duckValue);
+
+        if (uniqueScoredValues.Contains(duckValue))
+        {
+            roundLocked = true;
+            UpdateScoreUI();
+            ShowMessage("BUSTED");
+            Debug.Log("BUSTED");
+            return;
+        }
+
+        uniqueScoredValues.Add(duckValue);
         score += duckValue;
+
+        if (uniqueScoredValues.Count >= 7)
+        {
+            roundLocked = true;
+            UpdateScoreUI();
+            ShowMessage("YOU WIN!");
+            Debug.Log("YOU WIN!");
+            return;
+        }
 
         UpdateScoreUI();
         ShowMessage($"Scored duck: {duckValue}");
@@ -106,6 +130,9 @@ public class GameManager : MonoBehaviour
 
         roundLocked = true;
         score = 0;
+        scoredDuckValues.Clear();
+        uniqueScoredValues.Clear();
+
         UpdateScoreUI();
         ShowMessage("Please use the fishing rod. Reset the round to try again.");
     }
@@ -120,8 +147,16 @@ public class GameManager : MonoBehaviour
 
     private void UpdateScoreUI()
     {
-        if (scoreText != null)
-            scoreText.text = $"Score: {score}";
+        if (scoreText == null)
+            return;
+
+        string pulledValuesText = scoredDuckValues.Count > 0
+            ? string.Join(", ", scoredDuckValues)
+            : "None";
+
+        scoreText.text =
+            $"Duck Score: {score}\n" +
+            $"Ducks Pulled: {pulledValuesText}.";
     }
 
     private void ShuffleList(List<int> list)
