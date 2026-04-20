@@ -172,6 +172,13 @@ MonoBehaviour:
   duckAudioEvents: {fileID: 1683911900879424598}
   duckBody: {fileID: 2798493301012907349}
   duckGrab: {fileID: 1367654286506439496}
+  basicFluidInteractor: {fileID: 0}
+  hookCatchZone: {fileID: 0}
+  gameManager: {fileID: 0}
+  wasHooked: 0
+  hasScored: 0
+  duckValue: 0
+  startPosition: {x: 0, y: 0, z: 0}
 --- !u!135 &1067467882385017716
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -420,7 +427,7 @@ MonoBehaviour:
   m_SnapToColliderVolume: 1
   m_ReinitializeDynamicAttachEverySingleGrab: 1
   m_AttachEaseInTime: 0.15
-  m_MovementType: 2
+  m_MovementType: 0
   m_PredictedVisualsTransform: {fileID: 4226488243653964108}
   m_VelocityDamping: 1
   m_VelocityScale: 1
@@ -457,7 +464,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
-  m_ForceGravityOnDetach: 0
+  m_ForceGravityOnDetach: 1
   m_RetainTransformParent: 1
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
@@ -483,9 +490,16 @@ MonoBehaviour:
   duckGrab: {fileID: 1367654286506439496}
   grabClip: {fileID: 8300000, guid: cf348aa0eef795740a0b097ef7f31dec, type: 3}
   hookedClip: {fileID: 8300000, guid: 37eda7518c2d02245a927076b3acd739, type: 3}
-  impactClip: {fileID: 0}
-  minimumImpactSpeed: 1
-  impactVolumeMultiplier: 0.15
+  scoredInBucketClips:
+  - {fileID: 8300000, guid: 401456821a6a7a540a0ac9c3540e1e56, type: 3}
+  - {fileID: 8300000, guid: 712baed0f14b24544bd2d2f9711c94e4, type: 3}
+  - {fileID: 8300000, guid: b711fa0df8001564ca13c899589f4f43, type: 3}
+  - {fileID: 8300000, guid: 9e4783bd822b02d49bdc7eb43c9efa49, type: 3}
+  - {fileID: 8300000, guid: a62afe3ef02b6f14b8e23a954bb178c3, type: 3}
+  - {fileID: 8300000, guid: 5b01b8d042d3ffa42a8460fe7e3f5218, type: 3}
+  - {fileID: 8300000, guid: eb6905be9060f4d4bb3770cfb01a8e8d, type: 3}
+  - {fileID: 8300000, guid: 2ff01551772f6394a85997ca8e021541, type: 3}
+  scoredInBucketVolume: 1
 --- !u!82 &8074815621381793384
 AudioSource:
   m_ObjectHideFlags: 0

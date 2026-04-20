@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-// This script handles duck-specific sounds.
-// Put it on the duck ROOT object.
 public class DuckAudioEvents : MonoBehaviour
 {
     [Header("References")]
@@ -12,11 +10,10 @@ public class DuckAudioEvents : MonoBehaviour
     [Header("Sound Clips")]
     [SerializeField] private AudioClip grabClip;
     [SerializeField] private AudioClip hookedClip;
-    [SerializeField] private AudioClip impactClip;
+    [SerializeField] private AudioClip[] scoredInBucketClips;
 
-    [Header("Impact Settings")]
-    [SerializeField] private float minimumImpactSpeed = 1.0f;
-    [SerializeField] private float impactVolumeMultiplier = 0.15f;
+    [Header("Volume Settings")]
+    [SerializeField] private float scoredInBucketVolume = 1.0f;
 
     private void Reset()
     {
@@ -53,21 +50,18 @@ public class DuckAudioEvents : MonoBehaviour
             duckAudioSource.PlayOneShot(hookedClip);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (duckAudioSource == null || impactClip == null)
-            return;
+    public void PlayScoredInBucketSound()
+{
+    if (duckAudioSource == null)
+        return;
 
-        // Measure how hard the duck hit something
-        float impactSpeed = collision.relativeVelocity.magnitude;
+    if (scoredInBucketClips == null || scoredInBucketClips.Length == 0)
+        return;
 
-        // Ignore tiny bumps so the sound does not spam
-        if (impactSpeed < minimumImpactSpeed)
-            return;
+    int randomIndex = Random.Range(0, scoredInBucketClips.Length);
+    AudioClip chosenClip = scoredInBucketClips[randomIndex];
 
-        // Scale the volume a bit based on impact strength.
-        float volume = Mathf.Clamp01(impactSpeed * impactVolumeMultiplier);
-
-        duckAudioSource.PlayOneShot(impactClip, volume);
-    }
+    if (chosenClip != null)
+        duckAudioSource.PlayOneShot(chosenClip, scoredInBucketVolume);
+}
 }

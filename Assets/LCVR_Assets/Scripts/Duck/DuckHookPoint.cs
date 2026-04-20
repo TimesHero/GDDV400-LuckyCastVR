@@ -92,14 +92,14 @@ public class DuckHookPoint : MonoBehaviour
 
     public void Unhook()
     {
-        Debug.Log($"Unhook entered for {name}. hangPose={(hangPose == null ? "null" : hangPose.name)}");
+        //Debug.Log($"Unhook entered for {name}. hangPose={(hangPose == null ? "null" : hangPose.name)}");
         if (!IsHooked || duckBody == null)
         {
-            Debug.Log("Unhook() failed: not hooked or no rigidbody");
+            //Debug.Log("Unhook() failed: not hooked or no rigidbody");
             return;
         }
 
-        Debug.Log("Unhook() called");
+        //Debug.Log("Unhook() called");
 
         hangPose = null;
 
@@ -111,12 +111,12 @@ public class DuckHookPoint : MonoBehaviour
         duckBody.linearVelocity = Vector3.zero;
         duckBody.angularVelocity = Vector3.zero;
 
-        Debug.Log($"After unhook: isKinematic={duckBody.isKinematic}, useGravity={duckBody.useGravity}");
+        //Debug.Log($"After unhook: isKinematic={duckBody.isKinematic}, useGravity={duckBody.useGravity}");
     }
 
     private void OnDuckGrabbed(SelectEnterEventArgs args)
     {
-        Debug.Log($"OnDuckGrabbed fired for {name}. IsHooked={IsHooked}");
+        //Debug.Log($"OnDuckGrabbed fired for {name}. IsHooked={IsHooked}");
         if (IsHooked == true)
             Unhook();
 
@@ -135,6 +135,6 @@ public class DuckHookPoint : MonoBehaviour
         duckBody.isKinematic = false;
         duckBody.useGravity = true;
 
-        Debug.Log($"OnDuckUngrabbed forced state: isKinematic={duckBody.isKinematic}, useGravity={duckBody.useGravity}");
+        //Debug.Log($"OnDuckUngrabbed forced state: isKinematic={duckBody.isKinematic}, useGravity={duckBody.useGravity}");
     }
 }
